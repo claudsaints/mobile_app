@@ -14,18 +14,18 @@ export default function Home() {
         </View>
         <View style={[styles.flexContainer,{flexDirection: "row", gap: 10, width: "90%"} ]}>
           <View style={[styles.flexContainer, {gap: 10, }]}>
-            <LinkButton label="Um" />
-            <LinkButton label="Dois" />
-            <LinkButton label="Três" />
-            <LinkButton label="Quatro" />
-            <LinkButton label="Cinco" />
+            <LinkButton navigateTo="Um" label="Um" />
+            <LinkButton navigateTo="Dois" label="Dois" />
+            <LinkButton navigateTo="Tres" label="Três" />
+            <LinkButton navigateTo="Quatro" label="Quatro" />
+            <LinkButton navigateTo="Cinco" label="Cinco" />
           </View>
           <View style={[styles.flexContainer, {gap: 10, }]}>
-            <LinkButton label="Seis" />
-            <LinkButton label="Sete" />
-            <LinkButton label="Oito" />
-            <LinkButton label="Nove" />
-            <LinkButton label="Dez" />
+            <LinkButton navigateTo="Seis" label="Seis" />
+            <LinkButton navigateTo="Sete" label="Sete" />
+            <LinkButton navigateTo="Oito" label="Oito" />
+            <LinkButton navigateTo="Nove" label="Nove" />
+            <LinkButton navigateTo="Dez" label="Dez" />
           </View>
         </View>
       </SafeAreaView>
