@@ -22,17 +22,17 @@ export const styles = StyleSheet.create({
     container: {
         flex: 1, backgroundColor: "gray", justifyContent: "center", alignContent: "center"
     },
-    result: { flex: 0.2, alignSelf: "baseline", fontWeight: "bold", paddingLeft: 20, paddingTop: 30, fontSize: 10, color: "white" },
+    result: { flex: 0.2, alignSelf: "baseline", fontWeight: "bold", paddingLeft: 20, fontSize: 10, color: "white" },
     formField: {
         borderStyle: "solid",
         borderWidth: 4,
         borderCurve: "circular",
         borderColor: "#fff",
         borderRadius: 10,
-        flex: 0.6,
+        flex: 0.8,
         alignItems: "center",
         justifyContent: "center",
-        marginInline: 50
+        marginInline: 50,
     },
     title: {
         fontSize: 30,
