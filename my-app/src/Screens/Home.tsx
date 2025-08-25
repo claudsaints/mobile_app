@@ -1,6 +1,5 @@
 import { SafeAreaView, Image, View, Text, Pressable } from "react-native";
 import fatecImage from "../../assets/fatec.png";
-import Container from "../Components/Container";
 import { styles } from "../styles";
 import LinkButton from "../Components/LinkButton";
 

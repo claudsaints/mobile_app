@@ -15,6 +15,7 @@ import Nine from '../Screens/Nine';
 import Ten from '../Screens/Ten';
 import { ParamListBase } from '@react-navigation/native';
 import React from 'react';
+import CepView from '../Screens/CepView';
 
 export interface RootDrawerParamList extends ParamListBase {
     Um: undefined;
@@ -44,6 +45,15 @@ export function HomeDrawerNavigation() {
                     ),
                 }}
                 name="Home" component={Home}
+            />
+    
+            <Drawer.Screen
+                options={{
+                    drawerIcon: ({ focused, color, size }) => (
+                        <Icon name="content-paste-search" size={size} color={color} />
+                    ),
+                }}
+                name="Cep" component={CepView}
             />
             <Drawer.Screen
                 options={{
