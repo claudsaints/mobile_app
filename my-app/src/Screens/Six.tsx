@@ -1,4 +1,4 @@
-import { Pressable, TextInput, Text, View, SafeAreaView } from "react-native";
+import { Pressable, TextInput, Text, View, SafeAreaView, Switch } from "react-native";
 import { styles } from "../styles";
 import { useState } from "react";
 import { Picker } from "@react-native-picker/picker";
@@ -11,6 +11,9 @@ const Six = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const [role, setRole] = useState("manager");
+
+    const [isEnabled, setIsEnabled] = useState(false);
+  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -63,9 +66,22 @@ const Six = () => {
           <Picker.Item label="Administrador" value="admin" />
         </Picker>
 
+
+        <View style={{width: "100%", flexDirection: "row", alignItems: "center", justifyContent: "center"}}>
+         <Text>Manter-se conectado</Text>
+         <Switch
+          trackColor={{false: '#767577', true: '#81b0ff'}}
+          thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
+          ios_backgroundColor="#3e3e3e"
+          onValueChange={toggleSwitch}
+          value={isEnabled}
+          
+          />
+          </View>
+
         <Text style={styles.result}>
           {" "}
-          {`${email} , ${password} , ${confirmPassword}, ${role}`}
+          {`${email} - ${password} - ${confirmPassword} - ${role} - ${isEnabled ? "Sim":"Não"}`}
         </Text>
       </View>
     </SafeAreaView>
