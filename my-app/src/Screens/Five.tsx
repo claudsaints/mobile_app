@@ -5,7 +5,7 @@ import ImageIcon from "../Components/ImageIcon";
 
 
 
-const Um = () => {
+const Five = () => {
     return (
         <Container >
             <View style={{ backgroundColor: "crimson", flex: 0.5, flexDirection: "row" }}>
@@ -34,4 +34,4 @@ const Um = () => {
 }
 
 
-export default Um;
+export default Five;

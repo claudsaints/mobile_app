@@ -1,6 +1,12 @@
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
+    flexContainer: {
+    
+        alignItems: "center",
+        justifyContent: "center"
+
+    },
     input: {
         backgroundColor: "white",
         marginBottom: 20,
@@ -33,6 +39,17 @@ export const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         marginInline: 50,
+    },
+    linkbutton: {
+        textAlign: "center",
+        alignItems: "center",
+        backgroundColor: "#e22828ff",
+        padding: 20, 
+        borderRadius: 10,
+        width: 120
+    },
+    linkButtonLabel: {
+         color: "#fff",
     },
     title: {
         fontSize: 30,

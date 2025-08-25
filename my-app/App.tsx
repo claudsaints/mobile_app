@@ -1,10 +1,9 @@
-import Six from './src/Screens/Six';
+import Home from "./src/Screens/Home";
 
 export default function App() {
   return (
     <>
-      <Six />
+      <Home />
     </>
   );
 }
-
