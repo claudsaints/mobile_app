@@ -1,4 +1,6 @@
-import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
+//import { createDrawerNavigator, DrawerNavigationProp } from '@react-navigation/Drawer';
+import { createDrawerNavigator, DrawerNavigationProp } from '@react-navigation/drawer';
+
 import Home from '../Screens/Home';
 import One from '../Screens/One';
 import Two from '../Screens/Two';
@@ -12,7 +14,7 @@ import Nine from '../Screens/Nine';
 import Ten from '../Screens/Ten';
 import { ParamListBase } from '@react-navigation/native';
 
-export interface RootStackParamList extends ParamListBase {
+export interface RootDrawerParamList extends ParamListBase {
     Um: undefined;
     Dois: undefined;
     Tres: undefined;
@@ -26,25 +28,25 @@ export interface RootStackParamList extends ParamListBase {
     Onze: undefined;
 }
 
-export type HomeNavigationProps = StackNavigationProp<RootStackParamList>;
+export type HomeNavigationProps = DrawerNavigationProp<RootDrawerParamList>;
 
-const Stack = createStackNavigator();
+const Drawer = createDrawerNavigator();
 
-export function HomeStackNavigation() {
+export function HomeDrawerNavigation() {
     return (
-        <Stack.Navigator>
-            <Stack.Screen name="Home" component={Home} />
-            <Stack.Screen name="Um" component={One} />
-            <Stack.Screen name="Dois" component={Two} />
-            <Stack.Screen name="Tres" component={Three} />
-            <Stack.Screen name="Quatro" component={Four} />
-            <Stack.Screen name="Cinco" component={Five} />
-            <Stack.Screen name="Seis" component={Six} />
-            <Stack.Screen name="Sete" component={Seven} />
-            <Stack.Screen name="Oito" component={Eight} />
-            <Stack.Screen name="Nove" component={Nine} />
-            <Stack.Screen name="Dez" component={Ten} />
-        </Stack.Navigator>
+        <Drawer.Navigator>
+            <Drawer.Screen name="Home" component={Home} />
+            <Drawer.Screen name="Um" component={One} />
+            <Drawer.Screen name="Dois" component={Two} />
+            <Drawer.Screen name="Tres" component={Three} />
+            <Drawer.Screen name="Quatro" component={Four} />
+            <Drawer.Screen name="Cinco" component={Five} />
+            <Drawer.Screen name="Seis" component={Six} />
+            <Drawer.Screen name="Sete" component={Seven} />
+            <Drawer.Screen name="Oito" component={Eight} />
+            <Drawer.Screen name="Nove" component={Nine} />
+            <Drawer.Screen name="Dez" component={Ten} />
+        </Drawer.Navigator>
     );
 }
 
