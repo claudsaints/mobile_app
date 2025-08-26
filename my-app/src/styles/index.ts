@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
     flexContainer: {
-    
+
         alignItems: "center",
         justifyContent: "center"
 
@@ -44,16 +44,20 @@ export const styles = StyleSheet.create({
         textAlign: "center",
         alignItems: "center",
         backgroundColor: "#e22828ff",
-        padding: 20, 
+        padding: 20,
         borderRadius: 10,
         width: 120
     },
     linkButtonLabel: {
-         color: "#fff",
+        color: "#fff",
     },
     title: {
         fontSize: 30,
         color: "gold",
         fontWeight: "bold"
-    }
+    },
+    scrollViewContent: {
+        paddingHorizontal: 10, 
+        alignItems: "center",
+    }, row: { width: "100%", marginTop: 10, borderBottomWidth: 1, borderBottomColor: "#bbb", paddingBottom: 10, paddingLeft: 10, }, name: { color: "yellow", }, number: { color: "#fff", },
 })

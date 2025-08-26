@@ -1,37 +1,35 @@
-import { View } from "react-native"
+import { Linking, Pressable, View, Text} from "react-native"
 import Container from "../Components/Container"
 import React from "react";
+import { styles } from "../styles";
 
 
 
 
 const Three = () => {
-    return (
-        <Container >
-            <View style={{ backgroundColor: "crimson", flex: 0.5, flexDirection: "row" }}>
-                <View style={{ backgroundColor: "lime", flex: 0.5 }}>
-
-              
-                </View>
-                <View style={{ backgroundColor: "aquamarine", flex: 0.5, flexDirection: "column" }}>
-                    <View style={{ backgroundColor: "teal", flex: 0.5 }}>
-
-                       
-                    </View>
-                    <View style={{ backgroundColor: "skyblue", flex: 0.5 }}>
-
-                     
-                    </View>
-
-                </View>
+  
+    
+        const goToInstagram = () => {
+            const url = `instagram://user?username=fatec_jacarei`;
+            Linking.canOpenURL(url)
+                .then((supported) => {
+                    if (supported) {
+                        return Linking.openURL(url);
+                    } else {
+                        alert('Não foi possível abrir ao instagram');
+                    }
+                })
+                .catch((err) => console.error('Erro ao abrir a interface de discagem', err));
+        };
+    
+        return (
+            <View style={styles.container}>
+    
+                <Pressable style={[styles.button, { alignItems: "center" }]} onPress={goToInstagram}>
+                    <Text>Ir para o Intagram</Text>
+                </Pressable>
             </View>
-            <View style={{ backgroundColor: "salmon", flex: 0.5 }}>
-            
-            </View>
-
-        </Container>
-    )
-}
-
+        );
+    }
 
 export default Three;

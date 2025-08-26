@@ -9,7 +9,7 @@ export default function Home() {
       <SafeAreaView style={[styles.flexContainer, { flex: 1 }]}>
         <Image source={fatecImage} style={{ borderRadius: 120 }} />
         <View style={{margin: 28}}>
-            <Text style={styles.title}>HOME</Text>
+            <Text style={styles.title}>HOME - LIST 03</Text>
         </View>
         <View style={[styles.flexContainer,{flexDirection: "row", gap: 10, width: "90%"} ]}>
           <View style={[styles.flexContainer, {gap: 10, }]}>
@@ -17,14 +17,12 @@ export default function Home() {
             <LinkButton navigateTo="Dois" label="Dois" />
             <LinkButton navigateTo="Tres" label="Três" />
             <LinkButton navigateTo="Quatro" label="Quatro" />
-            <LinkButton navigateTo="Cinco" label="Cinco" />
           </View>
           <View style={[styles.flexContainer, {gap: 10, }]}>
+            <LinkButton navigateTo="Cinco" label="Cinco" />
             <LinkButton navigateTo="Seis" label="Seis" />
             <LinkButton navigateTo="Sete" label="Sete" />
             <LinkButton navigateTo="Oito" label="Oito" />
-            <LinkButton navigateTo="Nove" label="Nove" />
-            <LinkButton navigateTo="Dez" label="Dez" />
           </View>
         </View>
       </SafeAreaView>

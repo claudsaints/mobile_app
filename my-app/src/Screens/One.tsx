@@ -1,24 +1,28 @@
-import { View } from "react-native"
-import Container from "../Components/Container"
-import React from "react";
+import { View, Button, Alert, Linking, SafeAreaView, Pressable ,Text} from 'react-native';
+import { styles } from '../styles';
 
 
+const One: React.FC = () => {
+    const goToYoutube = () => {
+        const url = 'vnd.youtube://rShjZ_op1V8'
 
+        Linking.canOpenURL(url).then((supported) => {
+            if (supported) {  
+                Linking.openURL(url);
+            } else { Alert.alert('Erro', 'Este dispositivo não suporta envio de SMS.'); }
+        }).catch((err) => console.error('Erro ao enviar SMS', err));
 
-const One = () => {
+    }; 
+    
     return (
-        <Container >
-            <View style={{ backgroundColor: "crimson", flex: 0.5, flexDirection: "row" }}>
-                
-               
+        <SafeAreaView style={styles.container}>
+            <View> 
+                <Pressable style={[styles.button, {alignItems: "center"}]} onPress={goToYoutube}>
+                    <Text>IR PARA O YOUTUBE</Text>    
+                </Pressable> 
             </View>
-            <View style={{ backgroundColor: "salmon", flex: 0.5 }}>
-            
-            </View>
-
-        </Container>
-    )
-}
-
+        </SafeAreaView >
+    );
+};
 
 export default One;

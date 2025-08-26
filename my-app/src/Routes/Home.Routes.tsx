@@ -11,13 +11,12 @@ import Five from '../Screens/Five';
 import Six from '../Screens/Six';
 import Seven from '../Screens/Seven';
 import Eight from '../Screens/Eight';
-import Nine from '../Screens/Nine';
-import Ten from '../Screens/Ten';
 import { ParamListBase } from '@react-navigation/native';
 import React from 'react';
 import CepView from '../Screens/CepView';
 import { CepHistoryProvider } from '../Contexts/CepHistoryContext';
 import CepHistory from '../Screens/CepHistory';
+import Sms from '../Screens/Test/LinkingTest';
 
 export interface RootDrawerParamList extends ParamListBase {
     Um: undefined;
@@ -43,7 +42,7 @@ export function HomeDrawerNavigation() {
             <Drawer.Navigator >
                 <Drawer.Screen
                     options={{
-                        drawerIcon: ({ focused, color, size }) => (
+                        drawerIcon: ({ color, size }) => (
                             <Icon name="home" size={size} color={color} />
                         ),
                     }}
@@ -53,7 +52,7 @@ export function HomeDrawerNavigation() {
 
                 <Drawer.Screen
                     options={{
-                        drawerIcon: ({ focused, color, size }) => (
+                        drawerIcon: ({ color, size }) => (
                             <Icon name="content-paste-search" size={size} color={color} />
                         ),
                     }}
@@ -62,7 +61,7 @@ export function HomeDrawerNavigation() {
 
                 <Drawer.Screen
                     options={{
-                        drawerIcon: ({ focused, color, size }) => (
+                        drawerIcon: ({ color, size }) => (
                             <Icon name="history" size={size} color={color} />
                         ),
                     }}
@@ -71,7 +70,7 @@ export function HomeDrawerNavigation() {
 
                 <Drawer.Screen
                     options={{
-                        drawerIcon: ({ focused, color, size }) => (
+                        drawerIcon: ({ color, size }) => (
                             <Icon name="local-activity" size={size} color={color} />
                         ),
                     }}
@@ -80,7 +79,7 @@ export function HomeDrawerNavigation() {
                 <Drawer.Screen
                     name="Dois" component={Two}
                     options={{
-                        drawerIcon: ({ focused, color, size }) => (
+                        drawerIcon: ({ color, size }) => (
                             <Icon name="menu-book" size={size} color={color} />
                         ),
                     }}
@@ -88,7 +87,7 @@ export function HomeDrawerNavigation() {
                 <Drawer.Screen
                     name="Tres" component={Three}
                     options={{
-                        drawerIcon: ({ focused, color, size }) => (
+                        drawerIcon: ({ color, size }) => (
                             <Icon name="hive" size={size} color={color} />
                         ),
                     }}
@@ -96,54 +95,52 @@ export function HomeDrawerNavigation() {
                 <Drawer.Screen
                     name="Quatro" component={Four}
                     options={{
-                        drawerIcon: ({ focused, color, size }) => (
+                        drawerIcon: ({ color, size }) => (
                             <Icon name="invert-colors-on" size={size} color={color} />
                         ),
                     }}
                 />
                 <Drawer.Screen name="Cinco" component={Five}
                     options={{
-                        drawerIcon: ({ focused, color, size }) => (
+                        drawerIcon: ({ color, size }) => (
                             <Icon name="domain" size={size} color={color} />
                         ),
                     }}
                 />
                 <Drawer.Screen name="Seis" component={Six}
                     options={{
-                        drawerIcon: ({ focused, color, size }) => (
+                        drawerIcon: ({ color, size }) => (
                             <Icon name="inventory" size={size} color={color} />
                         ),
                     }}
                 />
                 <Drawer.Screen name="Sete" component={Seven}
                     options={{
-                        drawerIcon: ({ focused, color, size }) => (
+                        drawerIcon: ({ color, size }) => (
                             <Icon name="calculate" size={size} color={color} />
                         ),
                     }}
                 />
                 <Drawer.Screen name="Oito" component={Eight}
                     options={{
-                        drawerIcon: ({ focused, color, size }) => (
+                        drawerIcon: ({ color, size }) => (
                             <Icon name="fingerprint" size={size} color={color} />
                         ),
                     }}
                 />
-                <Drawer.Screen name="Nove" component={Nine}
+            
+                
+                <Drawer.Screen name="Test" component={Sms}
                     options={{
-                        drawerIcon: ({ focused, color, size }) => (
-                            <Icon name="key" size={size} color={color} />
-                        ),
-                    }}
-                />
-                <Drawer.Screen name="Dez" component={Ten}
-                    options={{
-                        drawerIcon: ({ focused, color, size }) => (
+                        drawerIcon: ({ color, size }) => (
                             <Icon name="mail-outline" size={size} color={color} />
                         ),
                     }}
                 />
-            </Drawer.Navigator>
+
+    </Drawer.Navigator>
+
+
         </CepHistoryProvider>
     );
 }

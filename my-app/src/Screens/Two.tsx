@@ -1,30 +1,33 @@
-import { View } from "react-native"
-import Container from "../Components/Container"
-import React from "react";
+import { View, Linking, Pressable, Text } from 'react-native';
+import { styles } from '../styles';
 
 
+const Two: React.FC = () => {
+    const numeroDeTelefone = '11999999999';
 
+    const fazerLigacao = () => {
+        const url = `tel:${numeroDeTelefone}`;
+        Linking.canOpenURL(url)
+            .then((supported) => {
+                if (supported) {
+                    return Linking.openURL(url);
+                } else {
+                    alert('Não foi possível abrir a interface de discagem');
+                }
+            })
+            .catch((err) => console.error('Erro ao abrir a interface de discagem', err));
+    };
 
-const Two = () => {
     return (
-        <Container >
-            <View style={{ backgroundColor: "crimson", flex: 0.5, flexDirection: "row" }}>
-                <View style={{ backgroundColor: "lime", flex: 0.5 }}>
+        <View style={styles.container}>
 
-              
-                </View>
-                <View style={{ backgroundColor: "aquamarine", flex: 0.5, flexDirection: "column" }}>
-                   
+            <Pressable style={[styles.button, { alignItems: "center" }]} onPress={fazerLigacao}>
+                <Text>Ligar para o número</Text>
+            </Pressable>
+        </View>
+    );
+};
 
-                </View>
-            </View>
-            <View style={{ backgroundColor: "salmon", flex: 0.5 }}>
-            
-            </View>
-
-        </Container>
-    )
-}
 
 
 export default Two;
