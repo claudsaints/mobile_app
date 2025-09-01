@@ -1,59 +1,131 @@
-import { Pressable, TextInput, Text, View, SafeAreaView } from "react-native";
-import { styles } from "../styles";
 import { useState } from "react";
+import {
+  View,
+  Image,
+  StyleSheet,
+  StatusBar,
+  Button,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
+import * as ImagePicker from "expo-image-picker";
 
+const oito = () => {
+  const [images, setImages] = useState<string[]>([]);
 
-const Eight = () => {
-    const [email, setEmail] = useState("");
+  const pickImage = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    if (!result.canceled) {
+      setImages((prevImages) => [...prevImages, result.assets[0].uri]);
+    }
+  };
 
-    const [password, setPassword] = useState("");
-    
-    const [confirmPassword, setConfirmPassword] = useState("");
+  const takePhoto = async () => {
+    const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
+    if (permissionResult.granted === false) {
+      alert("Permissão de câmera é necessária!");
+      return;
+    }
 
-    return (
-        <SafeAreaView style={styles.container}>
-            <View style={styles.formField}>
-                <Text style={styles.title}>Cadastrar</Text>
+    const result = await ImagePicker.launchCameraAsync({
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    if (!result.canceled) {
+      setImages((prevImages) => [...prevImages, result.assets[0].uri]);
+    }
+  };
 
-                <Text style={styles.label}>Email</Text>
-                <TextInput autoCapitalize="none"
-                    autoComplete="email"
-                    autoCorrect={false}
-                    keyboardType="email-address"
-                    onChangeText={(value) => setEmail(value)} style={styles.input}
-                    placeholder="Insira seu e-mail"
-                />
+  const removerImagem = (index: number) => {
+    setImages((prevImages) => prevImages.filter((_, i) => i !== index));
+  };
 
+  return (
+    <View style={styles.container}>
+      <View
+        style={{
+          position: "absolute",
+          top: StatusBar.currentHeight || 20,
+          right: 10,
+          flexDirection: "row",
+          gap: 10,
+          zIndex: 1,
+        }}
+      >
+        <MaterialIcons
+          name="photo"
+          size={30}
+          color="deepskyblue"
+          onPress={pickImage}
+        />
+        <MaterialIcons
+          name="photo-camera"
+          size={30}
+          color="deepskyblue"
+          onPress={takePhoto}
+        />
+      </View>
 
-                <Text style={styles.label}>Senha</Text>
-                <TextInput 
-                    secureTextEntry={true} 
-                    onChangeText={(value) => setPassword(value)} 
-                    style={styles.input} 
-                    placeholder="Insira sua senha" 
-                />
+      { 
+        !(images.length > 0 ) &&
+        <View style={styles.button}>
+          <Button title="Escolha uma imagem" onPress={pickImage} />
+        </View>
+      }
 
-                <Text style={styles.label}>Confirmar Senha</Text>
-                <TextInput 
-                    secureTextEntry={true} 
-                    onChangeText={(value) => setConfirmPassword(value)} 
-                    style={styles.input} 
-                    placeholder="Insira sua senha" 
-                />
+      <ScrollView style={{ marginTop: 20, marginBottom: 20 }}>
+        {images.map((uri, index) => (
+          <View key={index} style={styles.imageContainer}>
+            <TouchableOpacity
+              style={styles.closeButton}
+              onPress={() => removerImagem(index)}
+            >
+              <MaterialIcons name="close" size={24} color="white" />
+            </TouchableOpacity>
+            <Image source={{ uri }} style={styles.image} />
+          </View>
+        ))}
+      </ScrollView>
+    </View>
+  );
+};
 
-                <View style={{ flexDirection: "row", gap: 20 }}>
-                    <Pressable >
-                        <Text style={styles.button}>Cadastrar</Text>
-                    </Pressable>
-                    <Pressable >
-                        <Text style={styles.button}>Logar</Text>
-                    </Pressable>
-                </View>
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  button: {
+    marginTop: 50,
+    alignItems: "center",
+  },
+  imageContainer: {
+    position: "relative",
+    marginBottom: 20,
+    alignSelf: "center",
+  },
+  image: {
+    width: 200,
+    height: 300,
+    borderRadius: 8,
+  },
+  closeButton: {
+    position: "absolute",
+    top: 5,
+    left: 5,
+    backgroundColor: "rgba(0,0,0,0.6)",
+    borderRadius: 12,
+    padding: 2,
+    zIndex: 2,
+  },
+});
 
-                <Text style={styles.result}> {`${email} , ${password} , ${confirmPassword}`}</Text>
-            </View>
-        </SafeAreaView>
-    )
-}
-
-export default Eight;
+export default oito;

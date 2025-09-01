@@ -1,37 +1,80 @@
-import { View } from "react-native"
-import Container from "../Components/Container"
-import React from "react";
-import ImageIcon from "../Components/ImageIcon";
+import React, { useState, useEffect } from 'react';
+import { Text, View, FlatList, StyleSheet } from 'react-native';
+import * as Contacts from 'expo-contacts';
+import {styles }from '../styles';
 
 
-
-const Four = () => {
-    return (
-        <Container >
-            <View style={{ backgroundColor: "crimson", flex: 0.5, flexDirection: "row" }}>
-                <View style={{ backgroundColor: "lime", flex: 0.5 }}>
-
-                    <ImageIcon />
-                </View>
-                <View style={{ backgroundColor: "aquamarine", flex: 0.5, flexDirection: "column" }}>
-                    <View style={{ backgroundColor: "teal", flex: 0.5 }}>
-
-                        <ImageIcon />
-                    </View>
-                    <View style={{ backgroundColor: "skyblue", flex: 0.5 }}>
-
-                        <ImageIcon />
-                    </View>
-
-                </View>
-            </View>
-            <View style={{ backgroundColor: "salmon", flex: 0.5 }}>
-                <ImageIcon />
-            </View>
-
-        </Container>
-    )
+interface PhoneNumber {
+  id: string;
+  label?: string;
+  number: string;
 }
 
+interface Contact {
+  id: string;
+  name?: string;
+  phoneNumbers?: PhoneNumber[];
+  emails?: string[];
+
+}
+
+const Four = () => {
+    const [contacts, setContacts] = useState<Contact[]>([]);
+  const [hasPermission, setHasPermission] = useState<boolean | null>(null);
+  useEffect(() => {
+    (async () => {
+      const { status } = await Contacts.requestPermissionsAsync();
+      setHasPermission(status === 'granted');
+
+      if (status === 'granted') {
+        const { data } = await Contacts.getContactsAsync({
+          fields: [Contacts.Fields.PhoneNumbers, Contacts.Fields.Emails] ,
+        });
+
+        
+        if (data.length > 0) {
+          setContacts(data.filter(p => p.name[0].toLowerCase() === "c") as []);
+        }
+      }
+
+      
+    })();
+  }, []);
+
+  if (hasPermission === null) {
+    return <View />; 
+  }
+
+  if (hasPermission === false) {
+    return (
+      <View style={styles.container}>
+        <Text >Acesso aos contatos negado</Text>
+      </View>
+    );
+  }
+
+  const renderItem = ({ item }: { item: Contact }) => (
+    <View style={styles.row}>
+      <Text style={styles.name}>{item.name || 'Sem nome'}</Text>
+      {item.phoneNumbers ? (
+        item.phoneNumbers.map((phone: PhoneNumber, index: number) => (
+          <Text key={phone.id || index} style={styles.number}>{phone.number}</Text>
+        ))
+      ) : (
+        <Text style={styles.number}>Sem telefone</Text>
+      )}
+    </View>
+  );
+
+  return (
+    <View style={styles.container}>
+      <FlatList
+        data={contacts}
+        keyExtractor={(item) => item.id}
+        renderItem={renderItem}
+      />
+    </View>
+  );
+}
 
 export default Four;

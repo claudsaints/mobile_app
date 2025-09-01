@@ -29,12 +29,16 @@ export default function ContactsComponent() {
 
       if (status === 'granted') {
         const { data } = await Contacts.getContactsAsync({
-          fields: [Contacts.Fields.PhoneNumbers, Contacts.Fields.Emails],
+          fields: [Contacts.Fields.PhoneNumbers, Contacts.Fields.Emails] ,
         });
-        if (data?.length > 0) {
-          setContacts(data as []);
+
+        
+        if (data.length > 0) {
+          setContacts(data.filter(p => p.name[0].toLowerCase() === "c") as []);
         }
       }
+
+      
     })();
   }, []);
 

@@ -26,7 +26,7 @@ const Three = () => {
             <View style={styles.container}>
     
                 <Pressable style={[styles.button, { alignItems: "center" }]} onPress={goToInstagram}>
-                    <Text>Ir para o Intagram</Text>
+                    <Text>Ir para o Instagram</Text>
                 </Pressable>
             </View>
         );

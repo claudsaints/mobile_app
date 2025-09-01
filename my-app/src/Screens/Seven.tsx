@@ -1,49 +1,95 @@
-import { Pressable, TextInput, Text, View, SafeAreaView } from "react-native";
-import { styles } from "../styles";
 import { useState } from "react";
+import { View, Image, StyleSheet, StatusBar, Button, ScrollView } from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
+import * as ImagePicker from "expo-image-picker";
 
+const sete = () => {
+  const [images, setImages] = useState<string[]>([]);
 
-const Seven = () => {
-    const [email, setEmail] = useState("");
+  const pickImage = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    if (!result.canceled) {
+      setImages((prevImages) => [...prevImages, result.assets[0].uri]);
+    }
+  };
 
-    const [password, setPassword] = useState("");
+  const takePhoto = async () => {
+    const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
+    if (permissionResult.granted === false) {
+      alert("Permissão de câmera é necessária!");
+      return;
+    }
 
-    return (
-        <SafeAreaView style={styles.container}>
-   
+    const result = await ImagePicker.launchCameraAsync({
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    if (!result.canceled) {
+      setImages((prevImages) => [...prevImages, result.assets[0].uri]);
+    }
+  };
 
-                <Text style={styles.label}>Email</Text>
-                <TextInput autoCapitalize="none"
-                    autoComplete="email"
-                    autoCorrect={false}
-                    keyboardType="email-address"
-                    onChangeText={(value) => setEmail(value)} style={styles.input}
-                    placeholder="Insira seu e-mail"
-                />
+  return (
+    <View style={styles.container}>
+      <View
+        style={{
+          position: "absolute",
+          top: StatusBar.currentHeight || 20,
+          right: 10,
+          flexDirection: "row",
+          gap: 10,
+          zIndex: 1,
+        }}
+      >
+        <MaterialIcons
+          name="photo"
+          size={30}
+          color="deepskyblue"
+          onPress={pickImage}
+        />
+        <MaterialIcons
+          name="photo-camera"
+          size={30}
+          color="deepskyblue"
+          onPress={takePhoto}
+        />
+      </View>
 
+      <View style={styles.button}>
+        { 
+        !(images.length > 0 ) &&
+            <Button title="Escolha uma imagem" onPress={pickImage} />
+        }
+        <ScrollView  style={{ marginTop: 20, marginBottom: 20 }}>
+          {images.map((uri, index) => (
+            <Image
+              key={index}
+              source={{ uri }}
+              style={{ width: 200, height: 300, marginRight: 10,marginBottom: 20  }}
+            />
+          ))}
+        </ScrollView>
+      </View>
+    </View>
+  );
+};
 
-                <Text style={styles.label}>Senha</Text>
-                <TextInput 
-                    secureTextEntry={true} 
-                    onChangeText={(value) => setPassword(value)} 
-                    style={styles.input} 
-                    placeholder="Insira sua senha" 
-                />
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  button: {
+    marginTop: 50,
+    alignItems: "center",
+  },
+});
 
-            
-                <View style={{ flexDirection: "row", gap: 20 }}>
-                    <Pressable >
-                        <Text style={styles.button}>Cadastrar</Text>
-                    </Pressable>
-                    <Pressable >
-                        <Text style={styles.button}>Logar</Text>
-                    </Pressable>
-                </View>
-
-                <Text style={styles.result}> {`${email} , ${password} `}</Text>
-     
-        </SafeAreaView>
-    )
-}
-
-export default Seven
+export default sete;

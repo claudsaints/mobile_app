@@ -16,7 +16,7 @@ import React from 'react';
 import CepView from '../Screens/CepView';
 import { CepHistoryProvider } from '../Contexts/CepHistoryContext';
 import CepHistory from '../Screens/CepHistory';
-import Sms from '../Screens/Test/LinkingTest';
+import ContactsComponent from '../Screens/Test/ContactTest';
 
 export interface RootDrawerParamList extends ParamListBase {
     Um: undefined;
@@ -130,7 +130,7 @@ export function HomeDrawerNavigation() {
                 />
             
                 
-                <Drawer.Screen name="Test" component={Sms}
+                <Drawer.Screen name="Test" component={ContactsComponent}
                     options={{
                         drawerIcon: ({ color, size }) => (
                             <Icon name="mail-outline" size={size} color={color} />
