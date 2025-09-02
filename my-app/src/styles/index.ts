@@ -1,63 +1,134 @@
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
-    flexContainer: {
+  container: {
+    flex: 1,
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  nomeItem: {
+    marginTop: 10,
+    fontSize: 16,
+  },
+  top: {
+    flex: 1,
+    width: "100%",
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#FFA07A",
+  },
+  middle: {
+    flex: 1,
+    width: "100%",
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#F08080",
+  },
+  bottom: {
+    flex: 1,
+    width: "100%",
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#FF6347",
+  },
+  topSecondary: {
+    flex: 1,
+    width: "100%",
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#EFF5D2",
+  },
+  middleSecondary: {
+    flex: 1,
+    width: "100%",
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#C6D870",
+  },
+  bottomSecondary: {
+    flex: 1,
+    width: "100%",
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#8FA31E",
+  },
 
-        alignItems: "center",
-        justifyContent: "center"
-
-    },
-    input: {
-        backgroundColor: "white",
-        marginBottom: 20,
-        width: "92%",
-        borderRadius: 10
-    },
-    label: {
-        textAlign: "left",
-        alignSelf: "flex-start",
-        paddingLeft: 20,
-    },
-    button: {
-        backgroundColor: "violet",
-        padding: 10,
-        borderRadius: 10,
-        textAlign: "center",
-        color: "white"
-    },
-    container: {
-        flex: 1, backgroundColor: "gray", justifyContent: "center", alignContent: "center"
-    },
-    result: { flex: 0.2, alignSelf: "baseline", fontWeight: "bold", paddingLeft: 20, fontSize: 10, color: "white" },
-    formField: {
-        borderStyle: "solid",
-        borderWidth: 4,
-        borderCurve: "circular",
-        borderColor: "#fff",
-        borderRadius: 10,
-        flex: 0.8,
-        alignItems: "center",
-        justifyContent: "center",
-        marginInline: 50,
-    },
-    linkbutton: {
-        textAlign: "center",
-        alignItems: "center",
-        backgroundColor: "#e22828ff",
-        padding: 20,
-        borderRadius: 10,
-        width: 120
-    },
-    linkButtonLabel: {
-        color: "#fff",
-    },
-    title: {
-        fontSize: 30,
-        color: "gold",
-        fontWeight: "bold"
-    },
-    scrollViewContent: {
-        paddingHorizontal: 10, 
-        alignItems: "center",
-    }, row: { width: "100%", marginTop: 10, borderBottomWidth: 1, borderBottomColor: "#bbb", paddingBottom: 10, paddingLeft: 10, }, name: { color: "yellow", }, number: { color: "#fff", },
-})
+  flexContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  input: {
+    backgroundColor: "white",
+    marginBottom: 20,
+    width: "92%",
+    borderRadius: 10,
+  },
+  label: {
+    textAlign: "left",
+    alignSelf: "flex-start",
+    paddingLeft: 20,
+  },
+  button: {
+    backgroundColor: "violet",
+    padding: 10,
+    borderRadius: 10,
+    textAlign: "center",
+    color: "white",
+  },
+  result: {
+    flex: 0.2,
+    alignSelf: "baseline",
+    fontWeight: "bold",
+    paddingLeft: 20,
+    fontSize: 10,
+    color: "white",
+  },
+  formField: {
+    borderStyle: "solid",
+    borderWidth: 4,
+    borderCurve: "circular",
+    borderColor: "#fff",
+    borderRadius: 10,
+    flex: 0.8,
+    alignItems: "center",
+    justifyContent: "center",
+    marginInline: 50,
+  },
+  linkbutton: {
+    textAlign: "center",
+    alignItems: "center",
+    backgroundColor: "#e22828ff",
+    padding: 20,
+    borderRadius: 10,
+    width: 120,
+  },
+  linkButtonLabel: {
+    color: "#fff",
+  },
+  title: {
+    fontSize: 30,
+    color: "gold",
+    fontWeight: "bold",
+  },
+  scrollViewContent: {
+    paddingHorizontal: 10,
+    alignItems: "center",
+  },
+  row: {
+    width: "100%",
+    marginTop: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "#bbb",
+    paddingBottom: 10,
+    paddingLeft: 10,
+  },
+  name: { color: "yellow" },
+  number: { color: "#fff" },
+});

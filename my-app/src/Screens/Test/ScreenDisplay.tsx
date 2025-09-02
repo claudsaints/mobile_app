@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react"; 
 import { Text, SafeAreaView } from "react-native"; 
 import * as ScreenOrientation from "expo-screen-orientation"; 
-import { styles } from "../styles";
+import { styles } from "../../styles";
 
 
-const One: React.FC = () => {
+export default function ScreenDisplay(){
     const [mode, setMode] = useState('unknown');
-    const [color,setColor] = useState("#FFA500");
 
     useEffect(() => {
       const readOrientation = async () => {
@@ -16,14 +15,11 @@ const One: React.FC = () => {
           orientation === ScreenOrientation.Orientation.PORTRAIT_DOWN
         ) {
           setMode('portrait');
-          setColor("#FFA500");
-          
         } else if (
           orientation === ScreenOrientation.Orientation.LANDSCAPE_LEFT ||
           orientation === ScreenOrientation.Orientation.LANDSCAPE_RIGHT
         ) {
           setMode('landscape');
-          setColor("#1E90FF");
         }
       };
   
@@ -35,13 +31,11 @@ const One: React.FC = () => {
           orientationInfo.orientation === ScreenOrientation.Orientation.PORTRAIT_DOWN
         ) {
           setMode('portrait');
-          setColor("#FFA500");
         } else if (
           orientationInfo.orientation === ScreenOrientation.Orientation.LANDSCAPE_LEFT ||
           orientationInfo.orientation === ScreenOrientation.Orientation.LANDSCAPE_RIGHT
         ) {
           setMode('landscape');
-          setColor("#1E90FF");
         }
       });
   
@@ -51,10 +45,8 @@ const One: React.FC = () => {
     }, []);
   
     return (
-      <SafeAreaView style={[styles.container, {backgroundColor: color}]}>
+      <SafeAreaView style={styles.container}>
         <Text>Tela em modo {mode}</Text>
       </SafeAreaView>
     );
-};
-
-export default One;
+  };

@@ -1,80 +1,68 @@
-import React, { useState, useEffect } from 'react';
-import { Text, View, FlatList, StyleSheet } from 'react-native';
-import * as Contacts from 'expo-contacts';
-import {styles }from '../styles';
-
-
-interface PhoneNumber {
-  id: string;
-  label?: string;
-  number: string;
-}
-
-interface Contact {
-  id: string;
-  name?: string;
-  phoneNumbers?: PhoneNumber[];
-  emails?: string[];
-
-}
+import React, { useState, useEffect } from "react";
+import { Text, SafeAreaView, View } from "react-native";
+import * as ScreenOrientation from "expo-screen-orientation";
+import { styles } from "../styles";
 
 const Four = () => {
-    const [contacts, setContacts] = useState<Contact[]>([]);
-  const [hasPermission, setHasPermission] = useState<boolean | null>(null);
+  const [mode, setMode] = useState("unknown");
+
   useEffect(() => {
-    (async () => {
-      const { status } = await Contacts.requestPermissionsAsync();
-      setHasPermission(status === 'granted');
+    const readOrientation = async () => {
+      const orientation = await ScreenOrientation.getOrientationAsync();
+      if (
+        orientation === ScreenOrientation.Orientation.PORTRAIT_UP ||
+        orientation === ScreenOrientation.Orientation.PORTRAIT_DOWN
+      ) {
+        setMode("portrait");
+      } else if (
+        orientation === ScreenOrientation.Orientation.LANDSCAPE_LEFT ||
+        orientation === ScreenOrientation.Orientation.LANDSCAPE_RIGHT
+      ) {
+        setMode("landscape");
+      }
+    };
 
-      if (status === 'granted') {
-        const { data } = await Contacts.getContactsAsync({
-          fields: [Contacts.Fields.PhoneNumbers, Contacts.Fields.Emails] ,
-        });
+    readOrientation();
 
-        
-        if (data.length > 0) {
-          setContacts(data.filter(p => p.name[0].toLowerCase() === "c") as []);
+    const subscription = ScreenOrientation.addOrientationChangeListener(
+      ({ orientationInfo }) => {
+        if (
+          orientationInfo.orientation ===
+            ScreenOrientation.Orientation.PORTRAIT_UP ||
+          orientationInfo.orientation ===
+            ScreenOrientation.Orientation.PORTRAIT_DOWN
+        ) {
+          setMode("portrait");
+        } else if (
+          orientationInfo.orientation ===
+            ScreenOrientation.Orientation.LANDSCAPE_LEFT ||
+          orientationInfo.orientation ===
+            ScreenOrientation.Orientation.LANDSCAPE_RIGHT
+        ) {
+          setMode("landscape");
         }
       }
+    );
 
-      
-    })();
+    return () => {
+      ScreenOrientation.removeOrientationChangeListener(subscription);
+    };
   }, []);
 
-  if (hasPermission === null) {
-    return <View />; 
-  }
-
-  if (hasPermission === false) {
-    return (
-      <View style={styles.container}>
-        <Text >Acesso aos contatos negado</Text>
-      </View>
-    );
-  }
-
-  const renderItem = ({ item }: { item: Contact }) => (
-    <View style={styles.row}>
-      <Text style={styles.name}>{item.name || 'Sem nome'}</Text>
-      {item.phoneNumbers ? (
-        item.phoneNumbers.map((phone: PhoneNumber, index: number) => (
-          <Text key={phone.id || index} style={styles.number}>{phone.number}</Text>
-        ))
-      ) : (
-        <Text style={styles.number}>Sem telefone</Text>
-      )}
-    </View>
-  );
-
   return (
-    <View style={styles.container}>
-      <FlatList
-        data={contacts}
-        keyExtractor={(item) => item.id}
-        renderItem={renderItem}
-      />
-    </View>
+    <SafeAreaView
+      style={[
+        styles.container,
+        { flexDirection: mode == "portrait" ? "column" : "row" },
+      ]}
+    >
+      <View style={mode == "portrait"? styles.middle: styles.middleSecondary}>
+        <Text>Middle</Text>
+      </View>
+      <View style={mode == "portrait"? styles.bottom: styles.bottomSecondary}>
+        <Text>Botton</Text>
+      </View>
+    </SafeAreaView>
   );
-}
-
+};
 export default Four;

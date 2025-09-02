@@ -1,80 +1,97 @@
-import React, { useState, useEffect } from 'react';
-import { Text, View, FlatList, StyleSheet } from 'react-native';
-import * as Contacts from 'expo-contacts';
-import {styles }from '../styles';
+import React, { useState, useEffect } from "react";
+import { Text, SafeAreaView, View, FlatList, TextInput } from "react-native";
+import * as ScreenOrientation from "expo-screen-orientation";
+import { styles } from "../styles";
 
-
-interface PhoneNumber {
-  id: string;
-  label?: string;
-  number: string;
-}
-
-interface Contact {
-  id: string;
-  name?: string;
-  phoneNumbers?: PhoneNumber[];
-  emails?: string[];
-
-}
 
 const Five = () => {
-    const [contacts, setContacts] = useState<Contact[]>([]);
-    const [hasPermission, setHasPermission] = useState<boolean | null>(null);
-    useEffect(() => {
-      (async () => {
-        const { status } = await Contacts.requestPermissionsAsync();
-        setHasPermission(status === 'granted');
-  
-        if (status === 'granted') {
-          const { data } = await Contacts.getContactsAsync({
-            fields: [Contacts.Fields.PhoneNumbers, Contacts.Fields.Emails,Contacts.Fields.FirstName],
-          });
-  
-          
-          if (data.length > 0) {
-            setContacts(data as []);
-          }
+  const [mode, setMode] = useState('unknown');
+  const [names, setNames] = useState<string []>([]); 
+  const [currentName, setCurrentName] = useState(''); 
+
+  useEffect(() => {
+    const readOrientation = async () => {
+      const orientation = await ScreenOrientation.getOrientationAsync();
+      if (
+        orientation === ScreenOrientation.Orientation.PORTRAIT_UP ||
+        orientation === ScreenOrientation.Orientation.PORTRAIT_DOWN
+      ) {
+        setMode('portrait');
+      } else if (
+        orientation === ScreenOrientation.Orientation.LANDSCAPE_LEFT ||
+        orientation === ScreenOrientation.Orientation.LANDSCAPE_RIGHT
+      ) {
+        setMode('landscape');
+      }
+    };
+
+    readOrientation();
+
+    const subscription = ScreenOrientation.addOrientationChangeListener(
+      ({ orientationInfo }) => {
+        if (
+          orientationInfo.orientation ===
+            ScreenOrientation.Orientation.PORTRAIT_UP ||
+          orientationInfo.orientation ===
+            ScreenOrientation.Orientation.PORTRAIT_DOWN
+        ) {
+          setMode('portrait');
+        } else if (
+          orientationInfo.orientation ===
+            ScreenOrientation.Orientation.LANDSCAPE_LEFT ||
+          orientationInfo.orientation ===
+            ScreenOrientation.Orientation.LANDSCAPE_RIGHT
+        ) {
+          setMode('landscape');
         }
-  
-        
-      })();
-    }, []);
-  
-    if (hasPermission === null) {
-      return <View />; 
-    }
-  
-    if (hasPermission === false) {
-      return (
-        <View style={styles.container}>
-          <Text >Acesso aos contatos negado</Text>
-        </View>
-      );
-    }
-  
-    const renderItem = ({ item }: { item: Contact }) => (
-      <View style={styles.row}>
-        <Text style={styles.name}>{item.name || 'Sem nome'}</Text>
-        {item.phoneNumbers ? (
-          item.phoneNumbers.map((phone: PhoneNumber, index: number) => (
-            <Text key={phone.id || index} style={styles.number}>{phone.number}</Text>
-          ))
-        ) : (
-          <Text style={styles.number}>Sem telefone</Text>
-        )}
-      </View>
+      }
     );
+
+    return () => {
+      ScreenOrientation.removeOrientationChangeListener(subscription);
+    };
+  }, []);
+
+  // Função para salvar o nome ao pressionar "OK" no teclado
+  const handleSubmitEditing = () => {
+    if (currentName.trim() !== '') {
+      setNames((prevNames) => [...prevNames, currentName.trim()]);
+      setCurrentName(''); // Limpa o input após salvar
+    }
+  };
+
+  return (
+    <SafeAreaView
+      style={[
+        styles.container,
+        { flexDirection: mode === 'portrait' ? 'column' : 'row' },
+      ]}
+    >
+      <View style={mode === 'portrait' ? styles.middle : styles.middleSecondary}>
   
-    return (
-      <View style={styles.container}>
-        <FlatList
-          data={contacts}
-          keyExtractor={(item) => item.id}
-          renderItem={renderItem}
+        <TextInput
+          style={styles.input}
+          placeholder="Digite um nome"
+          value={currentName}
+          onChangeText={setCurrentName}
+          onSubmitEditing={handleSubmitEditing}
+          returnKeyType="done"
+        />
+        
+     
+      </View>
+      <View style={mode === 'portrait' ? styles.bottom : styles.bottomSecondary}>
+      <FlatList
+          data={names}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item, index }) => (
+            <Text style={styles.nomeItem}>{item}</Text>
+          )}
         />
       </View>
-    );
-  }
+    </SafeAreaView>
+  );
+}
+
 
 export default Five;
