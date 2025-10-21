@@ -1,0 +1,66 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UsuarioTipo {
+  ALUNO
+  PROFESSOR
+}
+
+model Usuario {
+  id        Int      @id @default(autoincrement())
+  nome      String   @db.VarChar(100)
+  email     String   @unique @db.VarChar(60)
+  senha     String   @db.VarChar(60) 
+  tipo      UsuarioTipo
+  aluno     Aluno?   @relation("Aluno")
+  professor Professor? @relation("Professor")
+}
+
+model Aluno {
+  usuarioId Int      @id
+  matricula String   @unique @db.VarChar(20)
+  usuario   Usuario  @relation("Aluno", fields: [usuarioId], references: [id])
+  disciplinas MatriculaAluno[]   
+}
+
+model Professor {
+  usuarioId   Int       @id
+  usuario     Usuario   @relation("Professor", fields: [usuarioId], references: [id])
+  disciplinas Professor_has_Disciplina[] 
+}
+
+model Disciplina {
+  id          Int                        @id @default(autoincrement())
+  descricao   String                     @db.VarChar(45)
+  professores Professor_has_Disciplina[] 
+  alunos      MatriculaAluno[]           
+}
+
+model Professor_has_Disciplina {
+  id           Int       @id @default(autoincrement())
+  professorId  Int
+  disciplinaId Int
+
+  professor  Professor  @relation(fields: [professorId], references: [usuarioId])
+  disciplina Disciplina @relation(fields: [disciplinaId], references: [id])
+
+  @@unique([professorId, disciplinaId])
+}
+
+model MatriculaAluno {
+  id           Int        @id @default(autoincrement())
+  alunoId      Int
+  disciplinaId Int
+
+  aluno      Aluno      @relation(fields: [alunoId], references: [usuarioId])
+  disciplina Disciplina @relation(fields: [disciplinaId], references: [id])
+
+  @@unique([alunoId, disciplinaId])
+}
