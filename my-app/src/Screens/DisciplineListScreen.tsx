@@ -99,7 +99,7 @@ const DisciplineListScreen: React.FC<DisciplineListScreenProps> = ({ navigation 
 
   if (loading) {
     return (
-      <View style={[styles.container, styles.flexContainer]}>
+      <View style={[styles.container, styles.container]}>
         <ActivityIndicator size="large" color="#D32F2F" />
         <Text style={styles.text}>Carregando disciplinas...</Text>
       </View>
@@ -108,7 +108,7 @@ const DisciplineListScreen: React.FC<DisciplineListScreenProps> = ({ navigation 
 
   if (error) {
     return (
-      <View style={[styles.container, styles.flexContainer]}>
+      <View style={[styles.container, styles.container]}>
         <Text style={styles.errorText}>{error}</Text>
         <TouchableOpacity style={styles.button} onPress={fetchDisciplines}>
           <Text style={styles.buttonText}>Tentar Novamente</Text>
@@ -118,7 +118,7 @@ const DisciplineListScreen: React.FC<DisciplineListScreenProps> = ({ navigation 
   }
 
   return (
-    <View style={styles.container}>
+    <View style={{flex: 1}}>
       <Text style={styles.title}>Disciplinas</Text>
       <FlatList
         data={disciplines}

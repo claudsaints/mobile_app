@@ -3,47 +3,75 @@ import { PrismaClient } from '../generated/prisma';
 
 const prisma = new PrismaClient();
 
-class MatriculaAlunoController {
-  public async create(req: Request, res: Response) {
-    const { alunoId, disciplinaId } = req.body;
-    try {
-      const matricula = await prisma.matriculaAluno.create({
-        data: {
-          alunoId,
-          disciplinaId,
-        },
-      });
-      res.json(matricula);
-    } catch (error) {
-      res.status(500).json({ message: 'Erro ao matricular aluno', error });
-    }
-  }
+export class MatriculaAlunoController {
 
   public async list(_: Request, res: Response) {
     try {
       const matriculas = await prisma.matriculaAluno.findMany({
         include: {
-          aluno: true,
-          disciplina: true,
-        },
+          aluno: {
+            include: {
+              usuario: true
+            }
+          },
+          disciplina: true
+        }
       });
+
       res.json(matriculas);
     } catch (error) {
+      console.error(error);
       res.status(500).json({ message: 'Erro ao listar matrículas', error });
     }
   }
 
-  public async delete(req: Request, res: Response) {
-    const { id } = req.body;
+  public async create(req: Request, res: Response) {
     try {
-      const deleted = await prisma.matriculaAluno.delete({ where: { id } });
-      res.json({ message: 'Matrícula excluída', matricula: deleted });
+      const { alunoId, disciplinaId } = req.body;
+
+      const matricula = await prisma.matriculaAluno.create({
+        data: { alunoId, disciplinaId }
+      });
+
+      res.json(matricula);
     } catch (error) {
-      res.status(500).json({ message: 'Erro ao excluir matrícula', error });
+      console.error(error);
+      res.status(500).json({ message: 'Erro ao criar matrícula', error });
     }
   }
 
-  public async getByAlunoId(req: Request, res: Response) {
+  public async update(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+      const { nota } = req.body;
+
+      const matricula = await prisma.matriculaAluno.update({
+        where: { id: Number(id) },
+        data: { nota }
+      });
+
+      res.json(matricula);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Erro ao atualizar matrícula', error });
+    }
+  }
+
+  public async delete(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+
+      await prisma.matriculaAluno.delete({
+        where: { id: Number(id) }
+      });
+
+      res.json({ message: 'Matrícula excluída com sucesso' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Erro ao excluir matrícula', error });
+    }
+  }
+   public async getByAlunoId(req: Request, res: Response) {
     const { alunoId } = req.params;
     try {
       const matriculas = await prisma.matriculaAluno.findMany({
@@ -82,19 +110,6 @@ class MatriculaAlunoController {
       res
         .status(500)
         .json({ message: 'Erro ao listar matrículas da disciplina', error });
-    }
-  }
-
-  public async update(req: Request, res: Response) {
-    const { id, alunoId, disciplinaId, nota } = req.body;
-    try {
-      const updated = await prisma.matriculaAluno.update({
-        where: { id },
-        data: { alunoId, disciplinaId, nota },
-      });
-      res.json(updated);
-    } catch (error) {
-      res.status(500).json({ message: 'Erro ao atualizar matrícula', error });
     }
   }
 }

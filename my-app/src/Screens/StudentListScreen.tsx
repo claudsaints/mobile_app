@@ -106,7 +106,7 @@ const StudentListScreen: React.FC<StudentListScreenProps> = ({ navigation }) => 
 
   if (loading) {
     return (
-      <View style={[styles.container, styles.flexContainer]}>
+      <View style={[styles.container, styles.container]}>
         <ActivityIndicator size="large" color="#D32F2F" />
         <Text style={styles.text}>Carregando alunos...</Text>
       </View>
@@ -115,7 +115,7 @@ const StudentListScreen: React.FC<StudentListScreenProps> = ({ navigation }) => 
 
   if (error) {
     return (
-      <View style={[styles.container, styles.flexContainer]}>
+      <View style={[styles.container, styles.container]}>
         <Text style={styles.errorText}>{error}</Text>
         <TouchableOpacity style={styles.button} onPress={fetchStudents}>
           <Text style={styles.buttonText}>Tentar Novamente</Text>
@@ -125,7 +125,7 @@ const StudentListScreen: React.FC<StudentListScreenProps> = ({ navigation }) => 
   }
 
   return (
-    <View style={styles.container}>
+    <View style={{flex: 1}}>
       <Text style={styles.title}>Alunos</Text>
       <FlatList
         data={students}

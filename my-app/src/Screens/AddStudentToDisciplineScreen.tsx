@@ -80,7 +80,7 @@ const AddStudentToDisciplineScreen: React.FC<AddStudentToDisciplineScreenProps> 
 
   if (loading) {
     return (
-      <View style={[styles.container, styles.flexContainer]}>
+      <View style={[styles.container, styles.container]}>
         <ActivityIndicator size="large" color="#D32F2F" />
         <Text style={styles.text}>Carregando...</Text>
       </View>
@@ -89,7 +89,7 @@ const AddStudentToDisciplineScreen: React.FC<AddStudentToDisciplineScreenProps> 
 
   if (error) {
     return (
-      <View style={[styles.container, styles.flexContainer]}>
+      <View style={[styles.container, styles.container]}>
         <Text style={styles.errorText}>{error}</Text>
         <TouchableOpacity style={styles.button} onPress={fetchAllStudents}>
           <Text style={styles.buttonText}>Tentar Novamente</Text>

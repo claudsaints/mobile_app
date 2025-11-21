@@ -152,7 +152,7 @@ const DisciplineDetailsScreen: React.FC<DisciplineDetailsScreenProps> = ({ route
 
   if (loading) {
     return (
-      <View style={[styles.container, styles.flexContainer]}>
+      <View style={[styles.container, styles.container]}>
         <ActivityIndicator size="large" color="#D32F2F" />
         <Text style={styles.text}>Carregando...</Text>
       </View>
@@ -171,7 +171,7 @@ const DisciplineDetailsScreen: React.FC<DisciplineDetailsScreenProps> = ({ route
   }
 
   return (
-    <View style={styles.container}>
+    <View style={{flex:1}}>
       <Text style={styles.title}>Alunos na Disciplina</Text>
       <FlatList
         data={matriculas}

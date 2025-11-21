@@ -1,13 +1,13 @@
-import { Router } from "express";
-import controller from "../controllers/MatriculaAlunoController";
+import { Router } from 'express';
+import MatriculaAlunoController from '../controllers/MatriculaAlunoController';
 
-const routes = Router();
+const router = Router();
 
-routes.post('/', controller.create);
-routes.get('/list', controller.list);
-routes.get('/aluno/:alunoId', controller.getByAlunoId);
-routes.get('/disciplina/:disciplineId', controller.getByDisciplinaId);
-routes.delete('/', controller.delete);
-routes.put('/', controller.update);
+router.get('/list', MatriculaAlunoController.list);
+router.post('/', MatriculaAlunoController.create);
+router.put('/update/:id', MatriculaAlunoController.update);
+router.delete('/delete/:id', MatriculaAlunoController.delete);
+router.get('/aluno/:alunoId', MatriculaAlunoController.getByAlunoId);
+router.get('/disciplina/:disciplineId', MatriculaAlunoController.getByDisciplinaId);
 
-export default routes;
+export default router;

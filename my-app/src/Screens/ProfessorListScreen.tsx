@@ -103,7 +103,7 @@ const ProfessorListScreen: React.FC<ProfessorListScreenProps> = ({ navigation })
 
   if (loading) {
     return (
-      <View style={[styles.container, styles.flexContainer]}>
+      <View style={[styles.container, styles.container]}>
         <ActivityIndicator size="large" color="#D32F2F" />
         <Text style={styles.text}>Carregando professores...</Text>
       </View>
@@ -112,7 +112,7 @@ const ProfessorListScreen: React.FC<ProfessorListScreenProps> = ({ navigation })
 
   if (error) {
     return (
-      <View style={[styles.container, styles.flexContainer]}>
+      <View style={[styles.container, styles.container]}>
         <Text style={styles.errorText}>{error}</Text>
         <TouchableOpacity style={styles.button} onPress={fetchProfessors}>
           <Text style={styles.buttonText}>Tentar Novamente</Text>
@@ -122,7 +122,7 @@ const ProfessorListScreen: React.FC<ProfessorListScreenProps> = ({ navigation })
   }
 
   return (
-    <View style={styles.container}>
+    <View style={{flex: 1}}>
       <Text style={styles.title}>Professores</Text>
       <FlatList
         data={professors}
