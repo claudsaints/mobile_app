@@ -58,6 +58,7 @@ model MatriculaAluno {
   id           Int        @id @default(autoincrement())
   alunoId      Int
   disciplinaId Int
+  nota         Float?
 
   aluno      Aluno      @relation(fields: [alunoId], references: [usuarioId])
   disciplina Disciplina @relation(fields: [disciplinaId], references: [id])

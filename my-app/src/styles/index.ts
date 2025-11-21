@@ -1,134 +1,111 @@
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
+  // General Containers
   container: {
     flex: 1,
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
+    backgroundColor: '#F8F8F8', // Light background for overall app
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
   },
-  nomeItem: {
-    marginTop: 10,
-    fontSize: 16,
+  innerContainer: {
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  top: {
-    flex: 1,
-    width: "100%",
-    height: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#FFA07A",
-  },
-  middle: {
-    flex: 1,
-    width: "100%",
-    height: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#F08080",
-  },
-  bottom: {
-    flex: 1,
-    width: "100%",
-    height: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#FF6347",
-  },
-  topSecondary: {
-    flex: 1,
-    width: "100%",
-    height: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#EFF5D2",
-  },
-  middleSecondary: {
-    flex: 1,
-    width: "100%",
-    height: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#C6D870",
-  },
-  bottomSecondary: {
-    flex: 1,
-    width: "100%",
-    height: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#8FA31E",
-  },
-
-  flexContainer: {
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  input: {
-    backgroundColor: "white",
+  // Text Styles
+  title: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: '#D32F2F', // A shade of red for titles
     marginBottom: 20,
-    width: "92%",
-    borderRadius: 10,
   },
-  label: {
-    textAlign: "left",
-    alignSelf: "flex-start",
-    paddingLeft: 20,
+  subtitle: {
+    fontSize: 20,
+    fontWeight: '600',
+    color: '#424242',
+    marginBottom: 15,
+  },
+  text: {
+    fontSize: 16,
+    color: '#212121',
+    marginBottom: 5,
+  },
+  errorText: {
+    color: '#FF0000',
+    marginBottom: 10,
+    textAlign: 'center',
+  },
+  // Form Elements
+  input: {
+    width: '100%',
+    padding: 12,
+    borderWidth: 1,
+    borderColor: '#BDBDBD',
+    borderRadius: 8,
+    backgroundColor: '#FFFFFF',
+    marginBottom: 15,
+    fontSize: 16,
+    color: '#212121',
   },
   button: {
-    backgroundColor: "violet",
-    padding: 10,
-    borderRadius: 10,
-    textAlign: "center",
-    color: "white",
+    width: '100%',
+    padding: 15,
+    borderRadius: 8,
+    backgroundColor: '#D32F2F', // Red button
+    alignItems: 'center',
+    marginBottom: 10,
   },
-  result: {
-    flex: 0.2,
-    alignSelf: "baseline",
-    fontWeight: "bold",
-    paddingLeft: 20,
-    fontSize: 10,
-    color: "white",
+  buttonText: {
+    color: '#FFFFFF',
+    fontSize: 18,
+    fontWeight: 'bold',
   },
-  formField: {
-    borderStyle: "solid",
-    borderWidth: 4,
-    borderCurve: "circular",
-    borderColor: "#fff",
-    borderRadius: 10,
-    flex: 0.8,
-    alignItems: "center",
-    justifyContent: "center",
-    marginInline: 50,
-  },
-  linkbutton: {
-    textAlign: "center",
-    alignItems: "center",
-    backgroundColor: "#e22828ff",
-    padding: 20,
-    borderRadius: 10,
-    width: 120,
-  },
-  linkButtonLabel: {
-    color: "#fff",
-  },
-  title: {
-    fontSize: 30,
-    color: "gold",
-    fontWeight: "bold",
-  },
-  scrollViewContent: {
-    paddingHorizontal: 10,
-    alignItems: "center",
-  },
-  row: {
-    width: "100%",
+  linkButton: {
     marginTop: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: "#bbb",
-    paddingBottom: 10,
-    paddingLeft: 10,
   },
-  name: { color: "yellow" },
-  number: { color: "#fff" },
+  linkButtonText: {
+    color: '#1976D2', // A shade of blue for links
+    fontSize: 16,
+  },
+  // Specific list item style (can be adapted)
+  listItem: {
+    backgroundColor: '#FFFFFF',
+    padding: 15,
+    marginVertical: 8,
+    borderRadius: 8,
+    width: '100%',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 3,
+  },
+  listItemText: {
+    fontSize: 16,
+    color: '#212121',
+  },
+  // Flex utilities (simplified/renamed from previous, keep as needed)
+  flexContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  // Removed specific colored blocks (top, middle, bottom, secondary) as they are likely for old placeholder screens
+  floatingButton: {
+    position: 'absolute',
+    bottom: 30,
+    right: 30,
+    backgroundColor: '#D32F2F', // Red accent
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
 });

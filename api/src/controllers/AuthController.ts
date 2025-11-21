@@ -1,9 +1,10 @@
 import { Request, Response } from 'express';
 import { PrismaClient } from '../generated/prisma';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
 const prisma = new PrismaClient();
-const jwtSecret = 'your_jwt_secret';
+
 class AuthController {
  
   public async createUser(req: Request, res: Response): Promise<any> {
@@ -41,8 +42,13 @@ class AuthController {
       const match = await bcrypt.compare(senha, usuario.senha);
       if (!match) return res.status(401).json({ message: 'Senha incorreta' });
 
+      const token = jwt.sign(
+        { id: usuario.id, tipo: usuario.tipo },
+        process.env.JWT_SECRET as string,
+        { expiresIn: '1h' }
+      );
     
-      res.json({ message: 'Login bem-sucedido', usuario});
+      res.json({ message: 'Login bem-sucedido', token });
     } catch (error) {
       res.status(500).json({ message: 'Erro ao fazer login', error });
     }

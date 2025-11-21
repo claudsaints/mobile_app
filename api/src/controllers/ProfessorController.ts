@@ -34,6 +34,19 @@ class ProfessorController {
   }
   
 
+  public async list(_: Request, res: Response) {
+    try {
+      const professors = await prisma.professor.findMany({
+        include: {
+          usuario: true,
+        },
+      });
+      res.json(professors);
+    } catch (error) {
+      res.status(500).json({ message: 'Erro ao listar professores', error });
+    }
+  }
+  
   public async delete(req: Request, res: Response): Promise<any> {
     const { usuarioId } = req.body;  // mudou de id para usuarioId
     try {
