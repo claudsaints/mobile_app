@@ -43,12 +43,54 @@ class MatriculaAlunoController {
     }
   }
 
+  public async getByAlunoId(req: Request, res: Response) {
+    const { alunoId } = req.params;
+    try {
+      const matriculas = await prisma.matriculaAluno.findMany({
+        where: {
+          alunoId: Number(alunoId),
+        },
+        include: {
+          disciplina: true,
+        },
+      });
+      res.json(matriculas);
+    } catch (error) {
+      res
+        .status(500)
+        .json({ message: 'Erro ao listar matrículas do aluno', error });
+    }
+  }
+
+  public async getByDisciplinaId(req: Request, res: Response) {
+    const { disciplineId } = req.params;
+    try {
+      const matriculas = await prisma.matriculaAluno.findMany({
+        where: {
+          disciplinaId: Number(disciplineId),
+        },
+        include: {
+          aluno: {
+            include: {
+              usuario: true,
+            },
+          },
+        },
+      });
+      res.json(matriculas);
+    } catch (error) {
+      res
+        .status(500)
+        .json({ message: 'Erro ao listar matrículas da disciplina', error });
+    }
+  }
+
   public async update(req: Request, res: Response) {
-    const { id, alunoId, disciplinaId } = req.body;
+    const { id, alunoId, disciplinaId, nota } = req.body;
     try {
       const updated = await prisma.matriculaAluno.update({
         where: { id },
-        data: { alunoId, disciplinaId },
+        data: { alunoId, disciplinaId, nota },
       });
       res.json(updated);
     } catch (error) {

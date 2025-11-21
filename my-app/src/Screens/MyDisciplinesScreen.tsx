@@ -9,26 +9,25 @@ import { jwtDecode } from 'jwt-decode';
 interface DecodedToken {
   id: number;
   tipo: string;
-  exp: number; // Expiration time
-  iat: number; // Issued at time
+  exp: number;
+  iat: number;
 }
 
-interface DisciplineGrade {
+interface Discipline {
   id: number;
-  nota: number | null;
   disciplina: {
     id: number;
     descricao: string;
   };
 }
 
-const BulletinScreen: React.FC = () => {
+const MyDisciplinesScreen: React.FC = () => {
   const { token } = useAuth();
-  const [disciplines, setDisciplines] = useState<DisciplineGrade[]>([]);
+  const [disciplines, setDisciplines] = useState<Discipline[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchBulletin = useCallback(async () => {
+  const fetchDisciplines = useCallback(async () => {
     if (!token) {
       setError('Token de autenticação não encontrado.');
       setLoading(false);
@@ -48,9 +47,9 @@ const BulletinScreen: React.FC = () => {
       });
       setDisciplines(response.data);
     } catch (err: any) {
-      console.error('Falha ao buscar o boletim:', err.response?.data || err.message);
-      setError('Falha ao carregar o boletim. Por favor, tente novamente mais tarde.');
-      Alert.alert('Erro', 'Falha ao carregar o boletim acadêmico.');
+      console.error('Falha ao buscar as disciplinas:', err.response?.data || err.message);
+      setError('Falha ao carregar as disciplinas. Por favor, tente novamente mais tarde.');
+      Alert.alert('Erro', 'Falha ao carregar as disciplinas.');
     } finally {
       setLoading(false);
     }
@@ -58,14 +57,13 @@ const BulletinScreen: React.FC = () => {
 
   useFocusEffect(
     useCallback(() => {
-      fetchBulletin();
-    }, [fetchBulletin])
+      fetchDisciplines();
+    }, [fetchDisciplines])
   );
 
-  const renderItem = ({ item }: { item: DisciplineGrade }) => (
+  const renderItem = ({ item }: { item: Discipline }) => (
     <View style={styles.listItem}>
       <Text style={styles.listItemText}>Disciplina: {item.disciplina.descricao}</Text>
-      <Text style={styles.listItemText}>Nota: {item.nota !== null ? item.nota : 'N/A'}</Text>
     </View>
   );
 
@@ -73,7 +71,7 @@ const BulletinScreen: React.FC = () => {
     return (
       <View style={[styles.container, styles.flexContainer]}>
         <ActivityIndicator size="large" color="#D32F2F" />
-        <Text style={styles.text}>Carregando boletim...</Text>
+        <Text style={styles.text}>Carregando disciplinas...</Text>
       </View>
     );
   }
@@ -82,7 +80,7 @@ const BulletinScreen: React.FC = () => {
     return (
       <View style={[styles.container, styles.flexContainer]}>
         <Text style={styles.errorText}>{error}</Text>
-        <TouchableOpacity style={styles.button} onPress={fetchBulletin}>
+        <TouchableOpacity style={styles.button} onPress={fetchDisciplines}>
           <Text style={styles.buttonText}>Tentar Novamente</Text>
         </TouchableOpacity>
       </View>
@@ -91,9 +89,9 @@ const BulletinScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Boletim Acadêmico</Text>
+      <Text style={styles.title}>Minhas Disciplinas</Text>
       {disciplines.length === 0 ? (
-        <Text style={styles.text}>Nenhuma disciplina encontrada em seu boletim.</Text>
+        <Text style={styles.text}>Você não está matriculado em nenhuma disciplina.</Text>
       ) : (
         <FlatList
           data={disciplines}
@@ -106,4 +104,4 @@ const BulletinScreen: React.FC = () => {
   );
 };
 
-export default BulletinScreen;
+export default MyDisciplinesScreen;

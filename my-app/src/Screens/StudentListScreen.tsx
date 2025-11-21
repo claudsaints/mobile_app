@@ -33,7 +33,7 @@ const StudentListScreen: React.FC<StudentListScreenProps> = ({ navigation }) => 
 
   const fetchStudents = useCallback(async () => {
     if (!token) {
-      setError('Authentication token not found.');
+      setError('Token de autenticação não encontrado.');
       setLoading(false);
       return;
     }
@@ -48,9 +48,9 @@ const StudentListScreen: React.FC<StudentListScreenProps> = ({ navigation }) => 
       });
       setStudents(response.data);
     } catch (err: any) {
-      console.error('Failed to fetch students:', err.response?.data || err.message);
-      setError('Failed to load students. Please try again later.');
-      Alert.alert('Error', 'Failed to load students.');
+      console.error('Falha ao buscar alunos:', err.response?.data || err.message);
+      setError('Falha ao carregar alunos. Por favor, tente novamente mais tarde.');
+      Alert.alert('Erro', 'Falha ao carregar alunos.');
     } finally {
       setLoading(false);
     }
@@ -62,11 +62,45 @@ const StudentListScreen: React.FC<StudentListScreenProps> = ({ navigation }) => 
     }, [fetchStudents])
   );
 
+  const handleDelete = async (usuarioId: number) => {
+    Alert.alert(
+      'Confirmar Exclusão',
+      'Você tem certeza que deseja excluir este aluno?',
+      [
+        { text: 'Cancelar', style: 'cancel' },
+        {
+          text: 'Excluir',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              await api.delete('/aluno', {
+                data: { usuarioId },
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              });
+              Alert.alert('Sucesso', 'Aluno excluído com sucesso!');
+              fetchStudents();
+            } catch (err: any) {
+              console.error('Falha ao excluir aluno:', err.response?.data || err.message);
+              Alert.alert('Erro', 'Falha ao excluir aluno.');
+            }
+          },
+        },
+      ]
+    );
+  };
+
   const renderItem = ({ item }: { item: Student }) => (
     <View style={styles.listItem}>
-      <Text style={styles.listItemText}>Name: {item.usuario.nome}</Text>
-      <Text style={styles.listItemText}>Email: {item.usuario.email}</Text>
-      <Text style={styles.listItemText}>Matricula: {item.matricula}</Text>
+      <View style={{ flex: 1 }}>
+        <Text style={styles.listItemText}>Nome: {item.usuario.nome}</Text>
+        <Text style={styles.listItemText}>Email: {item.usuario.email}</Text>
+        <Text style={styles.listItemText}>Matrícula: {item.matricula}</Text>
+      </View>
+      <TouchableOpacity onPress={() => handleDelete(item.usuarioId)}>
+        <Icon name="delete" size={24} color="#D32F2F" />
+      </TouchableOpacity>
     </View>
   );
 
@@ -74,7 +108,7 @@ const StudentListScreen: React.FC<StudentListScreenProps> = ({ navigation }) => 
     return (
       <View style={[styles.container, styles.flexContainer]}>
         <ActivityIndicator size="large" color="#D32F2F" />
-        <Text style={styles.text}>Loading students...</Text>
+        <Text style={styles.text}>Carregando alunos...</Text>
       </View>
     );
   }
@@ -84,7 +118,7 @@ const StudentListScreen: React.FC<StudentListScreenProps> = ({ navigation }) => 
       <View style={[styles.container, styles.flexContainer]}>
         <Text style={styles.errorText}>{error}</Text>
         <TouchableOpacity style={styles.button} onPress={fetchStudents}>
-          <Text style={styles.buttonText}>Retry</Text>
+          <Text style={styles.buttonText}>Tentar Novamente</Text>
         </TouchableOpacity>
       </View>
     );
@@ -92,7 +126,7 @@ const StudentListScreen: React.FC<StudentListScreenProps> = ({ navigation }) => 
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Students</Text>
+      <Text style={styles.title}>Alunos</Text>
       <FlatList
         data={students}
         keyExtractor={(item) => item.usuarioId.toString()}

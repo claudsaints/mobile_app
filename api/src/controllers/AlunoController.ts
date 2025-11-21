@@ -1,17 +1,19 @@
 import { Request, Response } from 'express';
 import { PrismaClient } from '../generated/prisma';
+import bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
 
 class AlunoController {
   public async create(req: Request, res: Response): Promise<any> {
     const { nome, email, senha, tipo, matricula } = req.body;
+    const hashedPassword = await bcrypt.hash(senha, 8);
     try {
       const usuario = await prisma.usuario.create({
         data: {
           nome,
           email,
-          senha,
+          senha: hashedPassword,
           tipo,
         },
       });

@@ -28,7 +28,7 @@ const DisciplineListScreen: React.FC<DisciplineListScreenProps> = ({ navigation 
 
   const fetchDisciplines = useCallback(async () => {
     if (!token) {
-      setError('Authentication token not found.');
+      setError('Token de autenticação não encontrado.');
       setLoading(false);
       return;
     }
@@ -43,9 +43,9 @@ const DisciplineListScreen: React.FC<DisciplineListScreenProps> = ({ navigation 
       });
       setDisciplines(response.data);
     } catch (err: any) {
-      console.error('Failed to fetch disciplines:', err.response?.data || err.message);
-      setError('Failed to load disciplines. Please try again later.');
-      Alert.alert('Error', 'Failed to load disciplines.');
+      console.error('Falha ao buscar disciplinas:', err.response?.data || err.message);
+      setError('Falha ao carregar disciplinas. Por favor, tente novamente mais tarde.');
+      Alert.alert('Erro', 'Falha ao carregar disciplinas.');
     } finally {
       setLoading(false);
     }
@@ -57,9 +57,43 @@ const DisciplineListScreen: React.FC<DisciplineListScreenProps> = ({ navigation 
     }, [fetchDisciplines])
   );
 
+  const handleDelete = async (id: number) => {
+    Alert.alert(
+      'Confirmar Exclusão',
+      'Você tem certeza que deseja excluir esta disciplina?',
+      [
+        { text: 'Cancelar', style: 'cancel' },
+        {
+          text: 'Excluir',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              await api.delete('/disciplina', {
+                data: { id },
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              });
+              Alert.alert('Sucesso', 'Disciplina excluída com sucesso!');
+              fetchDisciplines();
+            } catch (err: any) {
+              console.error('Falha ao excluir disciplina:', err.response?.data || err.message);
+              Alert.alert('Erro', 'Falha ao excluir disciplina.');
+            }
+          },
+        },
+      ]
+    );
+  };
+
   const renderItem = ({ item }: { item: Discipline }) => (
     <View style={styles.listItem}>
-      <Text style={styles.listItemText}>Description: {item.descricao}</Text>
+      <TouchableOpacity onPress={() => navigation.navigate('DisciplineDetails', { disciplineId: item.id })} style={{ flex: 1 }}>
+        <Text style={styles.listItemText}>Descrição: {item.descricao}</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => handleDelete(item.id)}>
+        <Icon name="delete" size={24} color="#D32F2F" />
+      </TouchableOpacity>
     </View>
   );
 
@@ -67,7 +101,7 @@ const DisciplineListScreen: React.FC<DisciplineListScreenProps> = ({ navigation 
     return (
       <View style={[styles.container, styles.flexContainer]}>
         <ActivityIndicator size="large" color="#D32F2F" />
-        <Text style={styles.text}>Loading disciplines...</Text>
+        <Text style={styles.text}>Carregando disciplinas...</Text>
       </View>
     );
   }
@@ -77,7 +111,7 @@ const DisciplineListScreen: React.FC<DisciplineListScreenProps> = ({ navigation 
       <View style={[styles.container, styles.flexContainer]}>
         <Text style={styles.errorText}>{error}</Text>
         <TouchableOpacity style={styles.button} onPress={fetchDisciplines}>
-          <Text style={styles.buttonText}>Retry</Text>
+          <Text style={styles.buttonText}>Tentar Novamente</Text>
         </TouchableOpacity>
       </View>
     );
@@ -85,7 +119,7 @@ const DisciplineListScreen: React.FC<DisciplineListScreenProps> = ({ navigation 
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Disciplines</Text>
+      <Text style={styles.title}>Disciplinas</Text>
       <FlatList
         data={disciplines}
         keyExtractor={(item) => item.id.toString()}

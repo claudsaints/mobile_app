@@ -21,7 +21,7 @@ const ProfessorRegistrationScreen: React.FC<ProfessorRegistrationScreenProps> = 
 
   const handleRegisterProfessor = async () => {
     if (!token) {
-      Alert.alert('Authentication Error', 'You are not authenticated. Please log in.');
+      Alert.alert('Erro de Autenticação', 'Você não está autenticado. Por favor, faça o login.');
       return;
     }
 
@@ -37,11 +37,11 @@ const ProfessorRegistrationScreen: React.FC<ProfessorRegistrationScreenProps> = 
           Authorization: `Bearer ${token}`,
         },
       });
-      Alert.alert('Success', 'Professor registered successfully!');
+      Alert.alert('Sucesso', 'Professor cadastrado com sucesso!');
       navigation.navigate('Professors'); // Navigate back to professor list
     } catch (error: any) {
-      console.error('Professor registration failed:', error.response?.data || error.message);
-      Alert.alert('Registration Failed', error.response?.data?.message || 'Something went wrong. Please try again.');
+      console.error('Falha no cadastro do professor:', error.response?.data || error.message);
+      Alert.alert('Falha no Cadastro', error.response?.data?.message || 'Algo deu errado. Por favor, tente novamente.');
     } finally {
       setLoading(false);
     }
@@ -49,11 +49,11 @@ const ProfessorRegistrationScreen: React.FC<ProfessorRegistrationScreenProps> = 
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Register New Professor</Text>
+      <Text style={styles.title}>Cadastrar Novo Professor</Text>
       <View style={styles.innerContainer}>
         <TextInput
           style={styles.input}
-          placeholder="Name"
+          placeholder="Nome"
           value={nome}
           onChangeText={setNome}
           editable={!loading}
@@ -69,17 +69,17 @@ const ProfessorRegistrationScreen: React.FC<ProfessorRegistrationScreenProps> = 
         />
         <TextInput
           style={styles.input}
-          placeholder="Password"
+          placeholder="Senha"
           value={senha}
           onChangeText={setSenha}
           secureTextEntry
           editable={!loading}
         />
         <TouchableOpacity style={styles.button} onPress={handleRegisterProfessor} disabled={loading}>
-          <Text style={styles.buttonText}>{loading ? 'Registering...' : 'Register Professor'}</Text>
+          <Text style={styles.buttonText}>{loading ? 'Cadastrando...' : 'Cadastrar Professor'}</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.linkButton} onPress={() => navigation.navigate('Professors')}>
-          <Text style={styles.linkButtonText}>Cancel</Text>
+          <Text style={styles.linkButtonText}>Cancelar</Text>
         </TouchableOpacity>
       </View>
     </View>

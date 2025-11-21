@@ -26,6 +26,8 @@ class DisciplinaController {
   public async delete(req: Request, res: Response) {
     const { id } = req.body;
     try {
+      await prisma.professor_has_Disciplina.deleteMany({ where: { disciplinaId: id } });
+      await prisma.matriculaAluno.deleteMany({ where: { disciplinaId: id } });
       const deleted = await prisma.disciplina.delete({ where: { id } });
       res.json({ message: 'Disciplina excluída com sucesso', disciplina: deleted });
     } catch (error) {

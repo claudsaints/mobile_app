@@ -23,7 +23,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       setToken(newToken);
       setUserType(userTipo);
       await SecureStore.setItemAsync('userToken', newToken);
-      await SecureStore.setItemAsync('userType', userTipo);
+      await SecureStore.setItemAsync('userType', String(userTipo));
       return true;
     } catch (error) {
       console.error('Login failed:', error);

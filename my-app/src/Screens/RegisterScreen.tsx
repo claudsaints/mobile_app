@@ -13,17 +13,18 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
   const [email, setEmail] = React.useState('');
   const [senha, setSenha] = React.useState('');
   const [tipo, setTipo] = React.useState('ALUNO'); // Default to ALUNO
+  const [matricula, setMatricula] = React.useState('');
   const [loading, setLoading] = React.useState(false);
 
   const handleRegister = async () => {
     setLoading(true);
     try {
-      await api.post('/auth', { nome, email, senha, tipo }); 
-      Alert.alert('Registration Successful', 'Your account has been created. Please log in.');
+      await api.post('/auth', { nome, email, senha, tipo, matricula }); 
+      Alert.alert('Registro bem-sucedido', 'Sua conta foi criada. Por favor, faça o login.');
       navigation.navigate('Login');
     } catch (error: any) {
       console.error('Registration failed:', error );
-      Alert.alert('Registration Failed', error.response?.data?.message || 'Something went wrong. Please try again.');
+      Alert.alert('Falha no registro', error.response?.data?.message || 'Algo deu errado. Por favor, tente novamente.');
     } finally {
       setLoading(false);
     }
@@ -31,11 +32,11 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Register</Text>
+      <Text style={styles.title}>Registrar</Text>
       <View style={styles.innerContainer}>
         <TextInput
           style={styles.input}
-          placeholder="Name"
+          placeholder="Nome"
           value={nome}
           onChangeText={setNome}
           editable={!loading}
@@ -51,7 +52,7 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
         />
         <TextInput
           style={styles.input}
-          placeholder="Password"
+          placeholder="Senha"
           value={senha}
           onChangeText={setSenha}
           secureTextEntry
@@ -63,15 +64,24 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
             onValueChange={(itemValue: string) => setTipo(itemValue)}
             enabled={!loading}
           >
-            <Picker.Item label="Student" value="ALUNO" />
+            <Picker.Item label="Aluno" value="ALUNO" />
             <Picker.Item label="Professor" value="PROFESSOR" />
           </Picker>
         </View>
+        {tipo === 'ALUNO' && (
+          <TextInput
+            style={styles.input}
+            placeholder="Matrícula"
+            value={matricula}
+            onChangeText={setMatricula}
+            editable={!loading}
+          />
+        )}
         <TouchableOpacity style={styles.button} onPress={handleRegister} disabled={loading}>
-          <Text style={styles.buttonText}>{loading ? 'Registering...' : 'Register'}</Text>
+          <Text style={styles.buttonText}>{loading ? 'Registrando...' : 'Registrar'}</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.linkButton} onPress={() => navigation.navigate('Login')}>
-          <Text style={styles.linkButtonText}>Already have an account? Login</Text>
+          <Text style={styles.linkButtonText}>Já tem uma conta? Login</Text>
         </TouchableOpacity>
       </View>
     </View>

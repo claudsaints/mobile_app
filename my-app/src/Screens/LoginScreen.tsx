@@ -18,7 +18,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
     const success = await signIn(email, password);
     setLoading(false);
     if (!success) {
-      Alert.alert('Login Failed', 'Invalid email or password. Please try again.');
+      Alert.alert('Falha no Login', 'Email ou senha inválidos. Por favor, tente novamente.');
     }
   };
 
@@ -37,17 +37,17 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
         />
         <TextInput
           style={styles.input}
-          placeholder="Password"
+          placeholder="Senha"
           value={password}
           onChangeText={setPassword}
           secureTextEntry
           editable={!loading}
         />
         <TouchableOpacity style={styles.button} onPress={handleLogin} disabled={loading}>
-          <Text style={styles.buttonText}>{loading ? 'Logging In...' : 'Login'}</Text>
+          <Text style={styles.buttonText}>{loading ? 'Entrando...' : 'Login'}</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.linkButton} onPress={() => navigation.navigate('Register')}>
-          <Text style={styles.linkButtonText}>Don't have an account? Register</Text>
+          <Text style={styles.linkButtonText}>Não tem uma conta? Registre-se</Text>
         </TouchableOpacity>
       </View>
     </View>

@@ -1,27 +1,27 @@
 import { Request, Response } from 'express';
 import { PrismaClient } from '../generated/prisma';
+import bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
 
 class ProfessorController {
   public async create(req: Request, res: Response): Promise<any> {
     const { nome, email, senha, tipo } = req.body; // dados do usuário
+    const hashedPassword = await bcrypt.hash(senha, 8);
     try {
       const usuario = await prisma.usuario.create({
         data: {
           nome,
           email,
-          senha,
+          senha: hashedPassword,
           tipo,
         },
       });
   
       const professor = await prisma.professor.create({
-      data: {
-        usuario: { create: usuario},
-        disciplinas: {}
-      }
-        
+        data: {
+          usuarioId: usuario.id,
+        },
       });
   
       res.json({ usuario, professor });
@@ -50,8 +50,10 @@ class ProfessorController {
   public async delete(req: Request, res: Response): Promise<any> {
     const { usuarioId } = req.body;  // mudou de id para usuarioId
     try {
-      const deleted = await prisma.professor.delete({ where: { usuarioId } });
-      res.json({ message: 'Professor excluído com sucesso', professor: deleted });
+      await prisma.professor_has_Disciplina.deleteMany({ where: { professorId: usuarioId } });
+      await prisma.professor.delete({ where: { usuarioId } });
+      await prisma.usuario.delete({ where: { id: usuarioId } });
+      res.json({ message: 'Professor excluído com sucesso' });
     } catch (error) {
       res.status(500).json({ message: 'Erro ao excluir professor', error });
     }

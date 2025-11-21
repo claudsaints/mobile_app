@@ -19,7 +19,7 @@ const DisciplineRegistrationScreen: React.FC<DisciplineRegistrationScreenProps> 
 
   const handleRegisterDiscipline = async () => {
     if (!token) {
-      Alert.alert('Authentication Error', 'You are not authenticated. Please log in.');
+      Alert.alert('Erro de Autenticação', 'Você não está autenticado. Por favor, faça o login.');
       return;
     }
 
@@ -32,11 +32,11 @@ const DisciplineRegistrationScreen: React.FC<DisciplineRegistrationScreenProps> 
           Authorization: `Bearer ${token}`,
         },
       });
-      Alert.alert('Success', 'Discipline registered successfully!');
+      Alert.alert('Sucesso', 'Disciplina cadastrada com sucesso!');
       navigation.navigate('Disciplines'); // Navigate back to discipline list
     } catch (error: any) {
-      console.error('Discipline registration failed:', error.response?.data || error.message);
-      Alert.alert('Registration Failed', error.response?.data?.message || 'Something went wrong. Please try again.');
+      console.error('Falha no cadastro da disciplina:', error.response?.data || error.message);
+      Alert.alert('Falha no Cadastro', error.response?.data?.message || 'Algo deu errado. Por favor, tente novamente.');
     } finally {
       setLoading(false);
     }
@@ -44,20 +44,20 @@ const DisciplineRegistrationScreen: React.FC<DisciplineRegistrationScreenProps> 
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Register New Discipline</Text>
+      <Text style={styles.title}>Cadastrar Nova Disciplina</Text>
       <View style={styles.innerContainer}>
         <TextInput
           style={styles.input}
-          placeholder="Description"
+          placeholder="Descrição"
           value={descricao}
           onChangeText={setDescricao}
           editable={!loading}
         />
         <TouchableOpacity style={styles.button} onPress={handleRegisterDiscipline} disabled={loading}>
-          <Text style={styles.buttonText}>{loading ? 'Registering...' : 'Register Discipline'}</Text>
+          <Text style={styles.buttonText}>{loading ? 'Cadastrando...' : 'Cadastrar Disciplina'}</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.linkButton} onPress={() => navigation.navigate('Disciplines')}>
-          <Text style={styles.linkButtonText}>Cancel</Text>
+          <Text style={styles.linkButtonText}>Cancelar</Text>
         </TouchableOpacity>
       </View>
     </View>

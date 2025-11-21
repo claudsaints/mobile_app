@@ -31,7 +31,7 @@ const ProfessorListScreen: React.FC<ProfessorListScreenProps> = ({ navigation })
 
   const fetchProfessors = useCallback(async () => {
     if (!token) {
-      setError('Authentication token not found.');
+      setError('Token de autenticação não encontrado.');
       setLoading(false);
       return;
     }
@@ -46,9 +46,9 @@ const ProfessorListScreen: React.FC<ProfessorListScreenProps> = ({ navigation })
       });
       setProfessors(response.data);
     } catch (err: any) {
-      console.error('Failed to fetch professors:', err.response?.data || err.message);
-      setError('Failed to load professors. Please try again later.');
-      Alert.alert('Error', 'Failed to load professors.');
+      console.error('Falha ao buscar professores:', err.response?.data || err.message);
+      setError('Falha ao carregar professores. Por favor, tente novamente mais tarde.');
+      Alert.alert('Erro', 'Falha ao carregar professores.');
     } finally {
       setLoading(false);
     }
@@ -60,10 +60,44 @@ const ProfessorListScreen: React.FC<ProfessorListScreenProps> = ({ navigation })
     }, [fetchProfessors])
   );
 
+  const handleDelete = async (usuarioId: number) => {
+    Alert.alert(
+      'Confirmar Exclusão',
+      'Você tem certeza que deseja excluir este professor?',
+      [
+        { text: 'Cancelar', style: 'cancel' },
+        {
+          text: 'Excluir',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              await api.delete('/professor', {
+                data: { usuarioId },
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              });
+              Alert.alert('Sucesso', 'Professor excluído com sucesso!');
+              fetchProfessors();
+            } catch (err: any) {
+              console.error('Falha ao excluir professor:', err.response?.data || err.message);
+              Alert.alert('Erro', 'Falha ao excluir professor.');
+            }
+          },
+        },
+      ]
+    );
+  };
+
   const renderItem = ({ item }: { item: Professor }) => (
     <View style={styles.listItem}>
-      <Text style={styles.listItemText}>Name: {item.usuario.nome}</Text>
-      <Text style={styles.listItemText}>Email: {item.usuario.email}</Text>
+      <View style={{ flex: 1 }}>
+        <Text style={styles.listItemText}>Nome: {item.usuario.nome}</Text>
+        <Text style={styles.listItemText}>Email: {item.usuario.email}</Text>
+      </View>
+      <TouchableOpacity onPress={() => handleDelete(item.usuarioId)}>
+        <Icon name="delete" size={24} color="#D32F2F" />
+      </TouchableOpacity>
     </View>
   );
 
@@ -71,7 +105,7 @@ const ProfessorListScreen: React.FC<ProfessorListScreenProps> = ({ navigation })
     return (
       <View style={[styles.container, styles.flexContainer]}>
         <ActivityIndicator size="large" color="#D32F2F" />
-        <Text style={styles.text}>Loading professors...</Text>
+        <Text style={styles.text}>Carregando professores...</Text>
       </View>
     );
   }
@@ -81,7 +115,7 @@ const ProfessorListScreen: React.FC<ProfessorListScreenProps> = ({ navigation })
       <View style={[styles.container, styles.flexContainer]}>
         <Text style={styles.errorText}>{error}</Text>
         <TouchableOpacity style={styles.button} onPress={fetchProfessors}>
-          <Text style={styles.buttonText}>Retry</Text>
+          <Text style={styles.buttonText}>Tentar Novamente</Text>
         </TouchableOpacity>
       </View>
     );
@@ -89,7 +123,7 @@ const ProfessorListScreen: React.FC<ProfessorListScreenProps> = ({ navigation })
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Professors</Text>
+      <Text style={styles.title}>Professores</Text>
       <FlatList
         data={professors}
         keyExtractor={(item) => item.usuarioId.toString()}

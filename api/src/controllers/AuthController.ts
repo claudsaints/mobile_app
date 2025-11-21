@@ -8,7 +8,7 @@ const prisma = new PrismaClient();
 class AuthController {
  
   public async createUser(req: Request, res: Response): Promise<any> {
-    const { nome, email, senha, tipo } = req.body;
+    const { nome, email, senha, tipo, matricula } = req.body;
     const hashedPassword = await bcrypt.hash(senha, 8);
     try {
       // Verifica se o email já está cadastrado
@@ -25,6 +25,16 @@ class AuthController {
           tipo,
         },
       });
+
+      if (tipo === 'ALUNO') {
+        await prisma.aluno.create({
+          data: {
+            matricula,
+            usuarioId: usuario.id,
+          },
+        });
+      }
+
       res.status(201).json(usuario);
     } catch (error) {
   
@@ -48,7 +58,7 @@ class AuthController {
         { expiresIn: '1h' }
       );
     
-      res.json({ message: 'Login bem-sucedido', token });
+      res.json({ message: 'Login bem-sucedido', token, userTipo: usuario.tipo });
     } catch (error) {
       res.status(500).json({ message: 'Erro ao fazer login', error });
     }

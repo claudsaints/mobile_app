@@ -23,7 +23,7 @@ const StudentRegistrationScreen: React.FC<StudentRegistrationScreenProps> = ({ n
 
   const handleRegisterStudent = async () => {
     if (!token) {
-      Alert.alert('Authentication Error', 'You are not authenticated. Please log in.');
+      Alert.alert('Erro de Autenticação', 'Você não está autenticado. Por favor, faça o login.');
       return;
     }
 
@@ -40,11 +40,11 @@ const StudentRegistrationScreen: React.FC<StudentRegistrationScreenProps> = ({ n
           Authorization: `Bearer ${token}`,
         },
       });
-      Alert.alert('Success', 'Student registered successfully!');
+      Alert.alert('Sucesso', 'Aluno cadastrado com sucesso!');
       navigation.navigate('Students'); // Navigate back to student list
     } catch (error: any) {
-      console.error('Student registration failed:', error.response?.data || error.message);
-      Alert.alert('Registration Failed', error.response?.data?.message || 'Something went wrong. Please try again.');
+      console.error('Falha no cadastro do aluno:', error.response?.data || error.message);
+      Alert.alert('Falha no Cadastro', error.response?.data?.message || 'Algo deu errado. Por favor, tente novamente.');
     } finally {
       setLoading(false);
     }
@@ -52,11 +52,11 @@ const StudentRegistrationScreen: React.FC<StudentRegistrationScreenProps> = ({ n
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Register New Student</Text>
+      <Text style={styles.title}>Cadastrar Novo Aluno</Text>
       <View style={styles.innerContainer}>
         <TextInput
           style={styles.input}
-          placeholder="Name"
+          placeholder="Nome"
           value={nome}
           onChangeText={setNome}
           editable={!loading}
@@ -72,7 +72,7 @@ const StudentRegistrationScreen: React.FC<StudentRegistrationScreenProps> = ({ n
         />
         <TextInput
           style={styles.input}
-          placeholder="Password"
+          placeholder="Senha"
           value={senha}
           onChangeText={setSenha}
           secureTextEntry
@@ -80,16 +80,16 @@ const StudentRegistrationScreen: React.FC<StudentRegistrationScreenProps> = ({ n
         />
         <TextInput
           style={styles.input}
-          placeholder="Matricula"
+          placeholder="Matrícula"
           value={matricula}
           onChangeText={setMatricula}
           editable={!loading}
         />
         <TouchableOpacity style={styles.button} onPress={handleRegisterStudent} disabled={loading}>
-          <Text style={styles.buttonText}>{loading ? 'Registering...' : 'Register Student'}</Text>
+          <Text style={styles.buttonText}>{loading ? 'Cadastrando...' : 'Cadastrar Aluno'}</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.linkButton} onPress={() => navigation.navigate('Students')}>
-          <Text style={styles.linkButtonText}>Cancel</Text>
+          <Text style={styles.linkButtonText}>Cancelar</Text>
         </TouchableOpacity>
       </View>
     </View>
